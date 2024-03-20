@@ -11,7 +11,8 @@ export default function Table() {
 
 
 
-    const host = "http://localhost:5000";
+    // const host = "http://localhost:5000";
+    const host = "https://ournotes-back.vercel.app";
     const fetchData = async () => {
 
         const uresponse = await fetch(`${host}/data/view`, {

@@ -7,7 +7,8 @@ export default function ViewData() {
 
   const [noteData, setNoteData] = useState([]);
 
-  const host = "http://localhost:5000";
+  const host = "https://ournotes-back.vercel.app";
+  // const host = "http://localhost:5000";
   const fetchData = async () => {
 
     const uresponse = await fetch(`${host}/data/viewone`, {
