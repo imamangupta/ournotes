@@ -19,7 +19,7 @@ export default function Table() {
             method: 'GET',
         });
         const userdata = await uresponse.json();
-        console.log(userdata);
+        // console.log(userdata);
         setNoteData(userdata)
     }
 
@@ -37,7 +37,7 @@ export default function Table() {
 
     }
 
-    const deletadata = async (id,name) => {
+    const deletadata = async (id, name) => {
 
         setDeleteDataId(id);
         setNotenamedelete(name);
@@ -64,36 +64,53 @@ export default function Table() {
         fetchData();
 
     }, [])
+
     const onChange = (e) => {
         setCredential({ ...credential, [e.target.name]: e.target.value })
     }
 
 
 
-    
-  const addData = async (e) => {
-    e.preventDefault();
- 
-    const response = await fetch(`${host}/data/updatedata`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({id:deleteDataId, title: credential.title, contant: credential.contant })
-    });
-    const json = await response.json();
-    console.log(deleteDataId);
-    console.log(credential.title);
-    console.log(credential.contant);
- 
-    if (json) {
-      console.log(json);
-      setCredential({title:'',contant:'',password:''})
-      document.getElementById('closeaddd1').click()
-    
 
+    const addData = async (e) => {
+        e.preventDefault();
+
+        const response = await fetch(`${host}/data/updatedata`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: deleteDataId, title: credential.title, contant: credential.contant })
+        });
+        const json = await response.json();
+        console.log(deleteDataId);
+        console.log(credential.title);
+        console.log(credential.contant);
+
+        if (json) {
+            //   console.log(json);
+            setCredential({ title: '', contant: '', password: '' })
+            document.getElementById('closeaddd1').click()
+
+
+        }
     }
-  }
+
+
+    const getMyDate = (sendDate) => {
+        const date = new Date(sendDate);
+        return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear()
+    }
+
+    const getMyTime = (sendDate) => {
+        const date = new Date(sendDate);
+        return date.getHours()+":"+ date.getMinutes()
+    }
+
+
+
+
+
 
     return (
         <>
@@ -105,6 +122,8 @@ export default function Table() {
                                 <th scope="col">Sno</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Contant</th>
+                                <th scope="col">Date</th>
+                                {/* <th scope="col">Time</th> */}
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -112,18 +131,19 @@ export default function Table() {
 
                             {noteData.map((element, myid) => {
                                 return <tr key={myid}>
-                                    <th scope="row">{myid+1}</th>
+                                    <th scope="row">{myid + 1}</th>
                                     <td>{element.title}</td>
                                     <td><Link to={`/viewdata/${element._id}`}> View</Link></td>
-                                    <td>
+                                    <td>{getMyDate(element.date)}</td>
+                                    {/* <td>{getMyTime(element.date)}</td> */}
 
+                                    <td>
                                         <button type="button" class="btn btn-primary m-2" onClick={() => updateingData(element._id)} data-bs-toggle="modal" data-bs-target="#exampleModal2">
                                             <span class="material-symbols-outlined">edit</span>
                                         </button>
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" onClick={() => deletadata(element._id,element.title)} data-bs-target="#exampleModal1">
+                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" onClick={() => deletadata(element._id, element.title)} data-bs-target="#exampleModal1">
                                             <span class="material-symbols-outlined">delete</span>
                                         </button>
-
                                     </td>
                                 </tr>
                             })}
@@ -131,6 +151,8 @@ export default function Table() {
                     </table>
                 </div>
             </div>
+
+
 
 
 
