@@ -6,7 +6,6 @@ a{
 }
 .addData_sty{
   display: flex;
-  justify-content: flex-end;
-  width: 1000px;
+  justify-content: center;
   margin-top: 30px;
 }
