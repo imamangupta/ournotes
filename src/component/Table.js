@@ -56,8 +56,6 @@ export default function Table() {
         const userdata = await uresponse.json();
         console.log(userdata);
         setCredential({ title: userdata[0].title, password: '', contant: userdata[0].contant })
-
-
     }
 
     useEffect(() => {
@@ -121,7 +119,8 @@ export default function Table() {
                         <thead>
                             <tr>
                                 <th scope="col">Sno</th>
-                                <th scope="col">Title</th>
+                                <th scope="col">Topic</th>
+                                <th scope="col">Author</th>
                                 <th scope="col">Contant</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
@@ -134,6 +133,7 @@ export default function Table() {
                                 return <tr key={myid}>
                                     <th scope="row">{myid + 1}</th>
                                     <td>{element.title}</td>
+                                    <td>{element.author? element.author:'-'}</td>
                                     <td><Link to={`/viewdata/${element._id}`}> View</Link></td>
                                     <td>{getMyDate(element.date)}</td>
                                     <td>{getMyTime(element.date)}</td>
@@ -170,10 +170,11 @@ export default function Table() {
                                 <label for="exampleFormControlInput1" class="form-label">Title</label>
                                 <input id="title" value={credential.title} type='text' onChange={onChange} name="title" class="form-control" />
                             </div>
-                            {/* <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">password</label>
                                 <input id="password" value={credential.password} type='text' onChange={onChange} name="password" class="form-control" />
-                            </div> */}
+                                <p id='passtag' style={{color:'red'}}></p>
+                            </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Enter Data</label>
                                 <textarea class="form-control" id="contant" value={credential.contant} type='text' onChange={onChange} name="contant" rows="3"></textarea>
@@ -181,7 +182,7 @@ export default function Table() {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="closeaddd1" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onClick={addData}>Save changes</button>
+                            <button type="button" class="btn btn-primary" disabled={credential.password.length < 1 || credential.title.length < 1 || credential.contant.length < 1 } onClick={addData}>Save changes</button>
                         </div>
                     </div>
                 </div>
