@@ -15,6 +15,8 @@ export default function Table() {
     const host = "https://ournotes-back.vercel.app";
     const fetchData = async () => {
 
+
+
         const uresponse = await fetch(`${host}/data/view`, {
             method: 'GET',
         });
@@ -26,14 +28,33 @@ export default function Table() {
 
 
     const deletadatanow = async () => {
-        const uresponse = await fetch(`${host}/data/deletedata`, {
+
+
+
+        const uresponse = await fetch(`${host}/data/viewone`, {
             method: 'GET',
             headers: {
                 'dataid': deleteDataId
             }
         });
 
-        document.getElementById('deleteDataclase').click()
+        const userdata = await uresponse.json();
+
+        if (userdata[0].notepass === credential.password) {
+            const uresponse = await fetch(`${host}/data/deletedata`, {
+                method: 'GET',
+                headers: {
+                    'dataid': deleteDataId
+                }
+            });
+
+            document.getElementById('deleteDataclase').click()
+        } else {
+            document.getElementById('passtagdelete').innerText = "inCorrect password"
+
+        }
+
+
 
     }
 
@@ -45,6 +66,9 @@ export default function Table() {
     }
 
     const updateingData = async (id) => {
+
+
+
 
         const uresponse = await fetch(`${host}/data/viewone`, {
             method: 'GET',
@@ -73,24 +97,34 @@ export default function Table() {
     const addData = async (e) => {
         e.preventDefault();
 
-        const response = await fetch(`${host}/data/updatedata`, {
-            method: 'POST',
+
+        const uresponse = await fetch(`${host}/data/viewone`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: deleteDataId, title: credential.title, contant: credential.contant })
+                'dataid': deleteDataId
+            }
         });
-        const json = await response.json();
-        console.log(deleteDataId);
-        console.log(credential.title);
-        console.log(credential.contant);
 
-        if (json) {
-            //   console.log(json);
-            setCredential({ title: '', contant: '', password: '' })
-            document.getElementById('closeaddd1').click()
+        const userdata = await uresponse.json();
 
+        if (userdata[0].notepass === credential.password) {
 
+            const response = await fetch(`${host}/data/updatedata`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: deleteDataId, title: credential.title, contant: credential.contant })
+            });
+            const json = await response.json();
+
+            if (json) {
+               
+                setCredential({ title: '', contant: '', password: '' })
+                document.getElementById('closeaddd1').click()
+            }
+        } else {
+            document.getElementById('passtagupdate').innerText = "inCorrect password"
         }
     }
 
@@ -103,11 +137,11 @@ export default function Table() {
     const getMyTime = (sendDate) => {
         const date = new Date(sendDate);
         if (date.getHours() < 12) {
-            return date.getHours() + ":"+ date.getMinutes()+"am"
-        }else if(date.getHours() === 12){
-            return (date.getHours())+":"+ date.getMinutes()+"pm"
-        }else{
-            return (date.getHours()-12)+":"+ date.getMinutes()+"pm"
+            return date.getHours() + ":" + date.getMinutes() + "am"
+        } else if (date.getHours() === 12) {
+            return (date.getHours()) + ":" + date.getMinutes() + "pm"
+        } else {
+            return (date.getHours() - 12) + ":" + date.getMinutes() + "pm"
         }
     }
 
@@ -133,7 +167,7 @@ export default function Table() {
                                 return <tr key={myid}>
                                     <th scope="row">{myid + 1}</th>
                                     <td>{element.title}</td>
-                                    <td>{element.author? element.author:'-'}</td>
+                                    <td>{element.author ? element.author : '-'}</td>
                                     <td><Link to={`/viewdata/${element._id}`}> View</Link></td>
                                     <td>{getMyDate(element.date)}</td>
                                     <td>{getMyTime(element.date)}</td>
@@ -173,7 +207,7 @@ export default function Table() {
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">password</label>
                                 <input id="password" value={credential.password} type='text' onChange={onChange} name="password" class="form-control" />
-                                <p id='passtag' style={{color:'red'}}></p>
+                                <p id='passtagupdate' style={{ color: 'red' }}></p>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Enter Data</label>
@@ -182,7 +216,7 @@ export default function Table() {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" id="closeaddd1" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" disabled={credential.password.length < 1 || credential.title.length < 1 || credential.contant.length < 1 } onClick={addData}>Save changes</button>
+                            <button type="button" class="btn btn-primary" disabled={credential.password.length < 1 || credential.title.length < 1 || credential.contant.length < 1} onClick={addData}>Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -194,6 +228,16 @@ export default function Table() {
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel1">Delete Notes:- {notenamedelete}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">password</label>
+                                <input id="password" value={credential.password} type='text' onChange={onChange} name="password" class="form-control" />
+                                <p id='passtagdelete' style={{ color: 'red' }}></p>
+                            </div>
+
                         </div>
 
                         <div class="modal-footer">

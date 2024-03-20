@@ -5,6 +5,7 @@ import Table from './component/Table';
 import Add from './component/Add';
 import ViewData from './component/ViewData';
 import { Routes, Route } from "react-router-dom";
+import Footer from './component/Footer';
 
 
 function App() {
@@ -23,9 +24,11 @@ function App() {
           <ViewData />
         </>} />
 
+
        
 
       </Routes>
+        <Footer/>
 
 
     </>
