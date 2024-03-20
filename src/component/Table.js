@@ -104,13 +104,14 @@ export default function Table() {
 
     const getMyTime = (sendDate) => {
         const date = new Date(sendDate);
-        return date.getHours()+":"+ date.getMinutes()
+        if (date.getHours() < 12) {
+            return date.getHours() + ":"+ date.getMinutes()+"am"
+        }else if(date.getHours() === 12){
+            return (date.getHours())+":"+ date.getMinutes()+"pm"
+        }else{
+            return (date.getHours()-12)+":"+ date.getMinutes()+"pm"
+        }
     }
-
-
-
-
-
 
     return (
         <>
@@ -123,7 +124,7 @@ export default function Table() {
                                 <th scope="col">Title</th>
                                 <th scope="col">Contant</th>
                                 <th scope="col">Date</th>
-                                {/* <th scope="col">Time</th> */}
+                                <th scope="col">Time</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -135,7 +136,7 @@ export default function Table() {
                                     <td>{element.title}</td>
                                     <td><Link to={`/viewdata/${element._id}`}> View</Link></td>
                                     <td>{getMyDate(element.date)}</td>
-                                    {/* <td>{getMyTime(element.date)}</td> */}
+                                    <td>{getMyTime(element.date)}</td>
 
                                     <td>
                                         <button type="button" class="btn btn-primary m-2" onClick={() => updateingData(element._id)} data-bs-toggle="modal" data-bs-target="#exampleModal2">
