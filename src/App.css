@@ -12,3 +12,11 @@ a{
 .table_date{
   color: #9eff93;
 }
+.talbe_top_tag{
+  text-align: center;
+  margin-top: 21px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 10px;
+  text-transform: uppercase;
+}

@@ -147,6 +147,7 @@ export default function Table() {
 
     return (
         <>
+            <div className='talbe_top_tag'>All Time Data</div>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: "30px" }}>
                 <div style={{ width: '1000px' }}>
                     <table class="table">
