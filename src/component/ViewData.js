@@ -41,7 +41,7 @@ export default function ViewData() {
       <button class="btn btn-primary m-2" onClick={copyData}>copy code</button>
       {/* <div>{noteData? noteData[0]?.contant :'no data'}</div> */}
       <div>
-        <div style={{width:"1000px"}}>
+        <div style={{width:"100%"}}>
 
           <textarea id="contant" value={noteData[0]?.contant} type='text' name="contant" class="form-control"  rows="20"></textarea>
         </div>

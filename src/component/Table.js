@@ -149,7 +149,7 @@ export default function Table() {
         <>
             <div className='talbe_top_tag'>All Time Data</div>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: "30px" }}>
-                <div style={{ width: '1000px' }}>
+                <div style={{ width: '100%' }}>
                     <table class="table">
                         <thead>
                             <tr>
